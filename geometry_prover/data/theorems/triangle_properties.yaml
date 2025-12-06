@@ -1,0 +1,61 @@
+
+theorems:
+  # Isosceles sides equal
+  - name: "isosceles_sides_equal"
+    category: "triangle_properties"
+    description: "In isosceles triangle, the two equal sides are equal"
+
+    conditions:
+      - type: "IsoscelesTriangle"
+        p1: "?A"
+        p2: "?B"
+        p3: "?C"
+
+    conclusions:
+      - type: "EqualSegment"
+        segment1: "?AB"
+        segment2: "?AC"
+
+    variables:
+      - name: "?A"
+        type: "point"
+      - name: "?B"
+        type: "point"
+      - name: "?C"
+        type: "point"
+      - name: "?AB"
+        type: "segment"
+        derived_from: ["?A", "?B"]
+      - name: "?AC"
+        type: "segment"
+        derived_from: ["?A", "?C"]
+
+  # Isosceles base angles equal
+  - name: "isosceles_base_angles"
+    category: "triangle_properties"
+    description: "In isosceles triangle, base angles are equal"
+
+    conditions:
+      - type: "IsoscelesTriangle"
+        p1: "?A"
+        p2: "?B"
+        p3: "?C"
+
+    conclusions:
+      - type: "EqualAngle"
+        angle1: "?ABC"
+        angle2: "?ACB"
+
+    variables:
+      - name: "?A"
+        type: "point"
+      - name: "?B"
+        type: "point"
+      - name: "?C"
+        type: "point"
+      - name: "?ABC"
+        type: "angle"
+        derived_from: ["?A", "?B", "?C"]
+      - name: "?ACB"
+        type: "angle"
+        derived_from: ["?A", "?C", "?B"]

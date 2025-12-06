@@ -1,0 +1,130 @@
+# Example Theorems for Geometry Theorem Prover
+# Format specification for theorem definitions
+
+theorems:
+  - name: "isosceles_base_angles"
+    category: "triangle_properties"
+    description: "In an isosceles triangle with AB = AC, base angles are equal"
+    
+    # Conditions that must be satisfied for theorem to apply
+    conditions:
+      - type: "EqualSegment"
+        segment1: "?AB"
+        segment2: "?AC"
+    
+    # Conclusions that can be derived when conditions are met
+    conclusions:
+      - type: "EqualAngle"
+        angle1: "?ABC"
+        angle2: "?ACB"
+    
+    # Variables used in the theorem
+    # ? prefix indicates pattern variable
+    variables:
+      - name: "?A"
+        type: "point"
+        description: "Apex of isosceles triangle"
+      - name: "?B"
+        type: "point"
+        description: "Base vertex 1"
+      - name: "?C"
+        type: "point"
+        description: "Base vertex 2"
+      - name: "?AB"
+        type: "segment"
+        derived_from: ["?A", "?B"]
+      - name: "?AC"
+        type: "segment"
+        derived_from: ["?A", "?C"]
+      - name: "?ABC"
+        type: "angle"
+        derived_from: ["?A", "?B", "?C"]
+      - name: "?ACB"
+        type: "angle"
+        derived_from: ["?A", "?C", "?B"]
+
+  - name: "vertical_angles"
+    category: "angle_properties"
+    description: "Vertical angles formed by intersecting lines are equal"
+    
+    conditions:
+      - type: "On"
+        point: "?P"
+        line: "?AB"
+      - type: "On"
+        point: "?P"
+        line: "?CD"
+    
+    conclusions:
+      - type: "EqualAngle"
+        angle1: "?APC"
+        angle2: "?BPD"
+      - type: "EqualAngle"
+        angle1: "?APD"
+        angle2: "?BPC"
+    
+    variables:
+      - name: "?P"
+        type: "point"
+        description: "Intersection point"
+      - name: "?A"
+        type: "point"
+      - name: "?B"
+        type: "point"
+      - name: "?C"
+        type: "point"
+      - name: "?D"
+        type: "point"
+      - name: "?AB"
+        type: "line"
+        derived_from: ["?A", "?B"]
+      - name: "?CD"
+        type: "line"
+        derived_from: ["?C", "?D"]
+      - name: "?APC"
+        type: "angle"
+        derived_from: ["?A", "?P", "?C"]
+      - name: "?BPD"
+        type: "angle"
+        derived_from: ["?B", "?P", "?D"]
+      - name: "?APD"
+        type: "angle"
+        derived_from: ["?A", "?P", "?D"]
+      - name: "?BPC"
+        type: "angle"
+        derived_from: ["?B", "?P", "?C"]
+
+  - name: "pythagorean_theorem"
+    category: "triangle_properties"
+    description: "In a right triangle, a² + b² = c²"
+    
+    conditions:
+      - type: "RightAngle"
+        angle: "?ABC"
+    
+    # Note: This theorem requires numeric computation
+    # Implementation will need special handling for SegmentLength facts
+    conclusions:
+      - type: "PythagoreanRelation"
+        hypotenuse: "?AC"
+        leg1: "?AB"
+        leg2: "?BC"
+    
+    variables:
+      - name: "?A"
+        type: "point"
+      - name: "?B"
+        type: "point"
+        description: "Right angle vertex"
+      - name: "?C"
+        type: "point"
+      - name: "?AB"
+        type: "segment"
+      - name: "?BC"
+        type: "segment"
+      - name: "?AC"
+        type: "segment"
+        description: "Hypotenuse"
+      - name: "?ABC"
+        type: "angle"
+        derived_from: ["?A", "?B", "?C"]

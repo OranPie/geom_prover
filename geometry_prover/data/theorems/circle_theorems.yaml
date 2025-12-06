@@ -1,0 +1,496 @@
+# Circle Theorems
+# Week 8 Day 3 Extension - Circle Support
+
+theorems:
+  # Inscribed angle theorem - THE fundamental circle theorem
+  - name: "inscribed_angle_theorem"
+    category: "circle_properties"
+    description: "Inscribed angle is half of central angle subtending the same arc"
+
+    conditions:
+      - type: "Circle"
+        center: "?O"
+        radius: "?r"
+      - type: "OnCircle"
+        point: "?A"
+        circle: "?circle"
+      - type: "OnCircle"
+        point: "?B"
+        circle: "?circle"
+      - type: "OnCircle"
+        point: "?P"
+        circle: "?circle"
+      - type: "InscribedAngle"
+        angle: "?angleAPB"
+        circle: "?circle"
+      - type: "CentralAngle"
+        angle: "?angleAOB"
+        circle: "?circle"
+
+    conclusions:
+      - type: "AngleValue"
+        angle: "?angleAPB"
+        value: "?half_central"
+      - type: "AngleValue"
+        angle: "?angleAOB"
+        value: "?central"
+
+    variables:
+      - name: "?O"
+        type: "point"
+      - name: "?A"
+        type: "point"
+      - name: "?B"
+        type: "point"
+      - name: "?P"
+        type: "point"
+      - name: "?r"
+        type: "any"
+      - name: "?circle"
+        type: "circle"
+        derived_from: ["?O", "?r"]
+      - name: "?angleAPB"
+        type: "angle"
+        derived_from: ["?A", "?P", "?B"]
+      - name: "?angleAOB"
+        type: "angle"
+        derived_from: ["?A", "?O", "?B"]
+      - name: "?central"
+        type: "any"
+      - name: "?half_central"
+        type: "any"
+        constraint: "?half_central = ?central / 2"
+
+  # Tangent-radius perpendicularity
+  - name: "tangent_radius_perpendicular"
+    category: "circle_properties"
+    description: "Radius to point of tangency is perpendicular to tangent line"
+
+    conditions:
+      - type: "Circle"
+        center: "?O"
+        radius: "?r"
+      - type: "TangentAt"
+        line: "?tangent"
+        circle: "?circle"
+        point: "?P"
+
+    conclusions:
+      - type: "Perpendicular"
+        line1: "?OP"
+        line2: "?tangent"
+
+    variables:
+      - name: "?O"
+        type: "point"
+      - name: "?P"
+        type: "point"
+      - name: "?r"
+        type: "any"
+      - name: "?circle"
+        type: "circle"
+        derived_from: ["?O", "?r"]
+      - name: "?tangent"
+        type: "line"
+      - name: "?OP"
+        type: "line"
+        derived_from: ["?O", "?P"]
+
+  # Inscribed angle in semicircle is right angle (Thales' theorem)
+  - name: "thales_theorem"
+    category: "circle_properties"
+    description: "Angle inscribed in semicircle is a right angle"
+
+    conditions:
+      - type: "Circle"
+        center: "?O"
+        radius: "?r"
+      - type: "Diameter"
+        p1: "?A"
+        p2: "?B"
+        circle: "?circle"
+      - type: "OnCircle"
+        point: "?P"
+        circle: "?circle"
+      - type: "InscribedAngle"
+        angle: "?angleAPB"
+        circle: "?circle"
+
+    conclusions:
+      - type: "RightAngle"
+        angle: "?angleAPB"
+
+    variables:
+      - name: "?O"
+        type: "point"
+      - name: "?A"
+        type: "point"
+      - name: "?B"
+        type: "point"
+      - name: "?P"
+        type: "point"
+      - name: "?r"
+        type: "any"
+      - name: "?circle"
+        type: "circle"
+        derived_from: ["?O", "?r"]
+      - name: "?angleAPB"
+        type: "angle"
+        derived_from: ["?A", "?P", "?B"]
+
+  # Equal inscribed angles subtending same arc
+  - name: "equal_inscribed_angles_same_arc"
+    category: "circle_properties"
+    description: "Inscribed angles subtending the same arc are equal"
+
+    conditions:
+      - type: "Circle"
+        center: "?O"
+        radius: "?r"
+      - type: "OnCircle"
+        point: "?A"
+        circle: "?circle"
+      - type: "OnCircle"
+        point: "?B"
+        circle: "?circle"
+      - type: "OnCircle"
+        point: "?P"
+        circle: "?circle"
+      - type: "OnCircle"
+        point: "?Q"
+        circle: "?circle"
+      - type: "InscribedAngle"
+        angle: "?angleAPB"
+        circle: "?circle"
+      - type: "InscribedAngle"
+        angle: "?angleAQB"
+        circle: "?circle"
+
+    conclusions:
+      - type: "EqualAngle"
+        angle1: "?angleAPB"
+        angle2: "?angleAQB"
+
+    variables:
+      - name: "?O"
+        type: "point"
+      - name: "?A"
+        type: "point"
+      - name: "?B"
+        type: "point"
+      - name: "?P"
+        type: "point"
+      - name: "?Q"
+        type: "point"
+      - name: "?r"
+        type: "any"
+      - name: "?circle"
+        type: "circle"
+        derived_from: ["?O", "?r"]
+      - name: "?angleAPB"
+        type: "angle"
+        derived_from: ["?A", "?P", "?B"]
+      - name: "?angleAQB"
+        type: "angle"
+        derived_from: ["?A", "?Q", "?B"]
+
+  # Tangent segments from external point are equal
+  - name: "equal_tangent_segments"
+    category: "circle_properties"
+    description: "Two tangent segments from external point to circle are equal"
+
+    conditions:
+      - type: "Circle"
+        center: "?O"
+        radius: "?r"
+      - type: "TangentAt"
+        line: "?PA"
+        circle: "?circle"
+        point: "?A"
+      - type: "TangentAt"
+        line: "?PB"
+        circle: "?circle"
+        point: "?B"
+
+    conclusions:
+      - type: "EqualSegment"
+        segment1: "?segPA"
+        segment2: "?segPB"
+
+    variables:
+      - name: "?O"
+        type: "point"
+      - name: "?P"
+        type: "point"
+      - name: "?A"
+        type: "point"
+      - name: "?B"
+        type: "point"
+      - name: "?r"
+        type: "any"
+      - name: "?circle"
+        type: "circle"
+        derived_from: ["?O", "?r"]
+      - name: "?PA"
+        type: "line"
+        derived_from: ["?P", "?A"]
+      - name: "?PB"
+        type: "line"
+        derived_from: ["?P", "?B"]
+      - name: "?segPA"
+        type: "segment"
+        derived_from: ["?P", "?A"]
+      - name: "?segPB"
+        type: "segment"
+        derived_from: ["?P", "?B"]
+
+  # Chord perpendicular bisector passes through center
+  - name: "chord_perpendicular_bisector_through_center"
+    category: "circle_properties"
+    description: "Perpendicular bisector of chord passes through circle center"
+
+    conditions:
+      - type: "Circle"
+        center: "?O"
+        radius: "?r"
+      - type: "Chord"
+        p1: "?A"
+        p2: "?B"
+        circle: "?circle"
+      - type: "Midpoint"
+        midpoint: "?M"
+        point1: "?A"
+        point2: "?B"
+      - type: "Perpendicular"
+        line1: "?OM"
+        line2: "?AB"
+
+    conclusions:
+      - type: "On"
+        point: "?O"
+        line: "?perp_bisector"
+
+    variables:
+      - name: "?O"
+        type: "point"
+      - name: "?A"
+        type: "point"
+      - name: "?B"
+        type: "point"
+      - name: "?M"
+        type: "point"
+      - name: "?r"
+        type: "any"
+      - name: "?circle"
+        type: "circle"
+        derived_from: ["?O", "?r"]
+      - name: "?AB"
+        type: "line"
+        derived_from: ["?A", "?B"]
+      - name: "?OM"
+        type: "line"
+        derived_from: ["?O", "?M"]
+      - name: "?perp_bisector"
+        type: "line"
+        derived_from: ["?M", "?O"]
+
+  # Equal chords equidistant from center
+  - name: "equal_chords_equal_distance"
+    category: "circle_properties"
+    description: "Equal chords in a circle are equidistant from the center"
+
+    conditions:
+      - type: "Circle"
+        center: "?O"
+        radius: "?r"
+      - type: "Chord"
+        p1: "?A"
+        p2: "?B"
+        circle: "?circle"
+      - type: "Chord"
+        p1: "?C"
+        p2: "?D"
+        circle: "?circle"
+      - type: "EqualSegment"
+        segment1: "?AB"
+        segment2: "?CD"
+
+    conclusions:
+      - type: "EqualDistancesToLines"
+        point: "?O"
+        line1: "?lineAB"
+        line2: "?lineCD"
+
+    variables:
+      - name: "?O"
+        type: "point"
+      - name: "?A"
+        type: "point"
+      - name: "?B"
+        type: "point"
+      - name: "?C"
+        type: "point"
+      - name: "?D"
+        type: "point"
+      - name: "?r"
+        type: "any"
+      - name: "?circle"
+        type: "circle"
+        derived_from: ["?O", "?r"]
+      - name: "?AB"
+        type: "segment"
+        derived_from: ["?A", "?B"]
+      - name: "?CD"
+        type: "segment"
+        derived_from: ["?C", "?D"]
+      - name: "?lineAB"
+        type: "line"
+        derived_from: ["?A", "?B"]
+      - name: "?lineCD"
+        type: "line"
+        derived_from: ["?C", "?D"]
+
+  # Cyclic quadrilateral opposite angles supplementary
+  - name: "cyclic_quadrilateral_opposite_angles"
+    category: "circle_properties"
+    description: "Opposite angles of cyclic quadrilateral are supplementary"
+
+    conditions:
+      - type: "CyclicQuadrilateral"
+        p1: "?A"
+        p2: "?B"
+        p3: "?C"
+        p4: "?D"
+
+    conclusions:
+      - type: "SupplementaryAngle"
+        angle1: "?angleA"
+        angle2: "?angleC"
+      - type: "SupplementaryAngle"
+        angle1: "?angleB"
+        angle2: "?angleD"
+
+    variables:
+      - name: "?A"
+        type: "point"
+      - name: "?B"
+        type: "point"
+      - name: "?C"
+        type: "point"
+      - name: "?D"
+        type: "point"
+      - name: "?angleA"
+        type: "angle"
+        derived_from: ["?D", "?A", "?B"]
+      - name: "?angleB"
+        type: "angle"
+        derived_from: ["?A", "?B", "?C"]
+      - name: "?angleC"
+        type: "angle"
+        derived_from: ["?B", "?C", "?D"]
+      - name: "?angleD"
+        type: "angle"
+        derived_from: ["?C", "?D", "?A"]
+
+  # Incircle radius formula for triangle
+  - name: "incircle_radius_formula"
+    category: "circle_properties"
+    description: "Incircle radius r = Area / semiperimeter"
+
+    conditions:
+      - type: "Triangle"
+        p1: "?A"
+        p2: "?B"
+        p3: "?C"
+      - type: "InscribedCircle"
+        circle: "?incircle"
+        p1: "?A"
+        p2: "?B"
+        p3: "?C"
+      - type: "AreaValue"
+        shape: "triangle"
+        points: ["?A", "?B", "?C"]
+        value: "?area"
+
+    conclusions:
+      - type: "RadiusValue"
+        circle: "?incircle"
+        radius: "?r"
+
+    variables:
+      - name: "?A"
+        type: "point"
+      - name: "?B"
+        type: "point"
+      - name: "?C"
+        type: "point"
+      - name: "?incircle"
+        type: "circle"
+      - name: "?area"
+        type: "any"
+      - name: "?r"
+        type: "any"
+
+  # Circumcircle radius formula (R = abc / 4K)
+  - name: "circumcircle_radius_formula"
+    category: "circle_properties"
+    description: "Circumcircle radius R = (abc) / (4 * Area)"
+
+    conditions:
+      - type: "Triangle"
+        p1: "?A"
+        p2: "?B"
+        p3: "?C"
+      - type: "CircumscribedCircle"
+        circle: "?circumcircle"
+        p1: "?A"
+        p2: "?B"
+        p3: "?C"
+      - type: "AreaValue"
+        shape: "triangle"
+        points: ["?A", "?B", "?C"]
+        value: "?area"
+      - type: "LengthValue"
+        segment: "?a"
+        value: "?len_a"
+      - type: "LengthValue"
+        segment: "?b"
+        value: "?len_b"
+      - type: "LengthValue"
+        segment: "?c"
+        value: "?len_c"
+
+    conclusions:
+      - type: "RadiusValue"
+        circle: "?circumcircle"
+        radius: "?R"
+
+    variables:
+      - name: "?A"
+        type: "point"
+      - name: "?B"
+        type: "point"
+      - name: "?C"
+        type: "point"
+      - name: "?circumcircle"
+        type: "circle"
+      - name: "?area"
+        type: "any"
+      - name: "?a"
+        type: "segment"
+        derived_from: ["?B", "?C"]
+      - name: "?b"
+        type: "segment"
+        derived_from: ["?A", "?C"]
+      - name: "?c"
+        type: "segment"
+        derived_from: ["?A", "?B"]
+      - name: "?len_a"
+        type: "any"
+      - name: "?len_b"
+        type: "any"
+      - name: "?len_c"
+        type: "any"
+      - name: "?R"
+        type: "any"
+        constraint: "?R = (?len_a * ?len_b * ?len_c) / (4 * ?area)"

@@ -1,0 +1,320 @@
+theorems:
+  # Orthocenter angle theorem
+  - name: "orthocenter_angle"
+    category: "triangle_centers"
+    description: "Angle at orthocenter equals 180° minus angle at opposite vertex"
+
+    conditions:
+      - type: "Orthocenter"
+        orthocenter: "?H"
+        p1: "?A"
+        p2: "?B"
+        p3: "?C"
+      - type: "AngleMeasure"
+        angle: "?angleA"
+        measure: "?measureA"
+
+    conclusions:
+      - type: "AngleMeasure"
+        angle: "?angleBHC"
+        measure: "?measureBHC"
+
+    variables:
+      - name: "?H"
+        type: "point"
+        description: "Orthocenter"
+      - name: "?A"
+        type: "point"
+        description: "Triangle vertex A"
+      - name: "?B"
+        type: "point"
+        description: "Triangle vertex B"
+      - name: "?C"
+        type: "point"
+        description: "Triangle vertex C"
+      - name: "?angleA"
+        type: "angle"
+        description: "Angle at vertex A"
+      - name: "?measureA"
+        type: "any"
+        description: "Measure of angle A"
+      - name: "?angleBHC"
+        type: "angle"
+        description: "Angle BHC at orthocenter"
+      - name: "?measureBHC"
+        type: "any"
+        description: "Measure of angle BHC = 180 - measureA"
+
+  # Centroid divides median in 2:1 ratio
+  - name: "centroid_divides_median"
+    category: "triangle_centers"
+    description: "Centroid divides each median in 2:1 ratio"
+
+    conditions:
+      - type: "Centroid"
+        centroid: "?G"
+        p1: "?A"
+        p2: "?B"
+        p3: "?C"
+      - type: "Midpoint"
+        midpoint: "?M"
+        point1: "?B"
+        point2: "?C"
+
+    conclusions:
+      - type: "ProportionalSegment"
+        segment1: "?AG"
+        segment2: "?GM"
+        ratio: 2.0
+
+    variables:
+      - name: "?G"
+        type: "point"
+        description: "Centroid"
+      - name: "?A"
+        type: "point"
+      - name: "?B"
+        type: "point"
+      - name: "?C"
+        type: "point"
+      - name: "?M"
+        type: "point"
+        description: "Midpoint of BC"
+      - name: "?AG"
+        type: "segment"
+        derived_from: ["?A", "?G"]
+      - name: "?GM"
+        type: "segment"
+        derived_from: ["?G", "?M"]
+
+  # Incenter equal distances theorem
+  - name: "incenter_equal_distances"
+    category: "triangle_centers"
+    description: "Incenter is equidistant from all three sides of triangle"
+
+    conditions:
+      - type: "Triangle"
+        p1: "?A"
+        p2: "?B"
+        p3: "?C"
+      - type: "Incenter"
+        incenter: "?I"
+        p1: "?A"
+        p2: "?B"
+        p3: "?C"
+
+    conclusions:
+      - type: "EqualDistancesToLines"
+        point: "?I"
+        line1: "?AB"
+        line2: "?BC"
+      - type: "EqualDistancesToLines"
+        point: "?I"
+        line1: "?BC"
+        line2: "?CA"
+      - type: "EqualDistancesToLines"
+        point: "?I"
+        line1: "?AB"
+        line2: "?CA"
+
+    variables:
+      - name: "?A"
+        type: "point"
+        description: "Triangle vertex A"
+      - name: "?B"
+        type: "point"
+        description: "Triangle vertex B"
+      - name: "?C"
+        type: "point"
+        description: "Triangle vertex C"
+      - name: "?I"
+        type: "point"
+        description: "Incenter of triangle"
+      - name: "?AB"
+        type: "line"
+        derived_from: ["?A", "?B"]
+      - name: "?BC"
+        type: "line"
+        derived_from: ["?B", "?C"]
+      - name: "?CA"
+        type: "line"
+        derived_from: ["?C", "?A"]
+
+  # Equal distances implies incenter (converse)
+  - name: "equal_distances_implies_incenter"
+    category: "triangle_centers"
+    description: "If point is equidistant from all three sides, it is the incenter"
+
+    conditions:
+      - type: "Triangle"
+        p1: "?A"
+        p2: "?B"
+        p3: "?C"
+      - type: "Inside"
+        point: "?D"
+        p1: "?A"
+        p2: "?B"
+        p3: "?C"
+      - type: "EqualDistancesToLines"
+        point: "?D"
+        line1: "?AB"
+        line2: "?BC"
+      - type: "EqualDistancesToLines"
+        point: "?D"
+        line1: "?BC"
+        line2: "?CA"
+
+    conclusions:
+      - type: "Incenter"
+        incenter: "?D"
+        p1: "?A"
+        p2: "?B"
+        p3: "?C"
+
+    variables:
+      - name: "?A"
+        type: "point"
+      - name: "?B"
+        type: "point"
+      - name: "?C"
+        type: "point"
+      - name: "?D"
+        type: "point"
+        description: "Point inside triangle equidistant from sides"
+      - name: "?AB"
+        type: "line"
+        derived_from: ["?A", "?B"]
+      - name: "?BC"
+        type: "line"
+        derived_from: ["?B", "?C"]
+      - name: "?CA"
+        type: "line"
+        derived_from: ["?C", "?A"]
+
+  # Orthocenter altitudes concurrent
+  - name: "orthocenter_altitudes_concurrent"
+    category: "triangle_centers"
+    description: "Three altitudes of triangle are concurrent at orthocenter"
+
+    conditions:
+      - type: "Triangle"
+        p1: "?A"
+        p2: "?B"
+        p3: "?C"
+      - type: "FootOfPerpendicular"
+        foot: "?D"
+        point: "?A"
+        line: "?BC"
+      - type: "FootOfPerpendicular"
+        foot: "?E"
+        point: "?B"
+        line: "?AC"
+      - type: "FootOfPerpendicular"
+        foot: "?F"
+        point: "?C"
+        line: "?AB"
+
+    conclusions:
+      - type: "Concurrent"
+        point: "?H"
+        lines: ["?AD", "?BE", "?CF"]
+      - type: "Orthocenter"
+        orthocenter: "?H"
+        p1: "?A"
+        p2: "?B"
+        p3: "?C"
+
+    variables:
+      - name: "?A"
+        type: "point"
+      - name: "?B"
+        type: "point"
+      - name: "?C"
+        type: "point"
+      - name: "?D"
+        type: "point"
+        description: "Foot from A to BC"
+      - name: "?E"
+        type: "point"
+        description: "Foot from B to AC"
+      - name: "?F"
+        type: "point"
+        description: "Foot from C to AB"
+      - name: "?H"
+        type: "point"
+        description: "Orthocenter (altitude intersection)"
+      - name: "?BC"
+        type: "line"
+        derived_from: ["?B", "?C"]
+      - name: "?AC"
+        type: "line"
+        derived_from: ["?A", "?C"]
+      - name: "?AB"
+        type: "line"
+        derived_from: ["?A", "?B"]
+      - name: "?AD"
+        type: "line"
+        derived_from: ["?A", "?D"]
+      - name: "?BE"
+        type: "line"
+        derived_from: ["?B", "?E"]
+      - name: "?CF"
+        type: "line"
+        derived_from: ["?C", "?F"]
+
+  # Orthocenter perpendicular property
+  - name: "orthocenter_perpendicular_property"
+    category: "triangle_centers"
+    description: "Lines from orthocenter vertices are perpendicular to opposite sides"
+
+    conditions:
+      - type: "Triangle"
+        p1: "?A"
+        p2: "?B"
+        p3: "?C"
+      - type: "Orthocenter"
+        orthocenter: "?H"
+        p1: "?A"
+        p2: "?B"
+        p3: "?C"
+
+    conclusions:
+      - type: "Perpendicular"
+        line1: "?AH"
+        line2: "?BC"
+      - type: "Perpendicular"
+        line1: "?BH"
+        line2: "?AC"
+      - type: "Perpendicular"
+        line1: "?CH"
+        line2: "?AB"
+
+    variables:
+      - name: "?A"
+        type: "point"
+      - name: "?B"
+        type: "point"
+      - name: "?C"
+        type: "point"
+      - name: "?H"
+        type: "point"
+        description: "Orthocenter"
+      - name: "?AH"
+        type: "line"
+        derived_from: ["?A", "?H"]
+      - name: "?BH"
+        type: "line"
+        derived_from: ["?B", "?H"]
+      - name: "?CH"
+        type: "line"
+        derived_from: ["?C", "?H"]
+      - name: "?BC"
+        type: "line"
+        derived_from: ["?B", "?C"]
+      - name: "?AC"
+        type: "line"
+        derived_from: ["?A", "?C"]
+      - name: "?AB"
+        type: "line"
+        derived_from: ["?A", "?B"]
+

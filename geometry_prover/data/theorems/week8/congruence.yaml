@@ -1,0 +1,372 @@
+# Triangle Congruence Theorems - Week 8
+# The five main congruence postulates plus helper theorems
+
+theorems:
+  # 1. SSS Congruence (Side-Side-Side)
+  - name: "sss_congruence"
+    category: "congruence"
+    description: "If three sides of one triangle are equal to three sides of another triangle, the triangles are congruent (SSS)"
+
+    conditions:
+      - type: "Triangle"
+        p1: "?A"
+        p2: "?B"
+        p3: "?C"
+      - type: "Triangle"
+        p1: "?D"
+        p2: "?E"
+        p3: "?F"
+      - type: "EqualSegment"
+        segment1: "?AB"
+        segment2: "?DE"
+      - type: "EqualSegment"
+        segment1: "?BC"
+        segment2: "?EF"
+      - type: "EqualSegment"
+        segment1: "?CA"
+        segment2: "?FD"
+
+    conclusions:
+      - type: "CongruentTriangle"
+        p1: "?A"
+        p2: "?B"
+        p3: "?C"
+        p4: "?D"
+        p5: "?E"
+        p6: "?F"
+
+    variables:
+      - name: "?A"
+        type: "point"
+      - name: "?B"
+        type: "point"
+      - name: "?C"
+        type: "point"
+      - name: "?D"
+        type: "point"
+      - name: "?E"
+        type: "point"
+      - name: "?F"
+        type: "point"
+      - name: "?AB"
+        type: "segment"
+        derived_from: ["?A", "?B"]
+      - name: "?BC"
+        type: "segment"
+        derived_from: ["?B", "?C"]
+      - name: "?CA"
+        type: "segment"
+        derived_from: ["?C", "?A"]
+      - name: "?DE"
+        type: "segment"
+        derived_from: ["?D", "?E"]
+      - name: "?EF"
+        type: "segment"
+        derived_from: ["?E", "?F"]
+      - name: "?FD"
+        type: "segment"
+        derived_from: ["?F", "?D"]
+
+  # 2. SAS Congruence (Side-Angle-Side)
+  - name: "sas_congruence"
+    category: "congruence"
+    description: "If two sides and the included angle of one triangle are equal to two sides and the included angle of another, the triangles are congruent (SAS)"
+
+    conditions:
+      - type: "Triangle"
+        p1: "?A"
+        p2: "?B"
+        p3: "?C"
+      - type: "Triangle"
+        p1: "?D"
+        p2: "?E"
+        p3: "?F"
+      - type: "EqualSegment"
+        segment1: "?AB"
+        segment2: "?DE"
+      - type: "EqualAngle"
+        angle1: "?ABC"
+        angle2: "?DEF"
+      - type: "EqualSegment"
+        segment1: "?BC"
+        segment2: "?EF"
+
+    conclusions:
+      - type: "CongruentTriangle"
+        p1: "?A"
+        p2: "?B"
+        p3: "?C"
+        p4: "?D"
+        p5: "?E"
+        p6: "?F"
+
+    variables:
+      - name: "?A"
+        type: "point"
+      - name: "?B"
+        type: "point"
+      - name: "?C"
+        type: "point"
+      - name: "?D"
+        type: "point"
+      - name: "?E"
+        type: "point"
+      - name: "?F"
+        type: "point"
+      - name: "?AB"
+        type: "segment"
+        derived_from: ["?A", "?B"]
+      - name: "?BC"
+        type: "segment"
+        derived_from: ["?B", "?C"]
+      - name: "?DE"
+        type: "segment"
+        derived_from: ["?D", "?E"]
+      - name: "?EF"
+        type: "segment"
+        derived_from: ["?E", "?F"]
+      - name: "?ABC"
+        type: "angle"
+        derived_from: ["?A", "?B", "?C"]
+      - name: "?DEF"
+        type: "angle"
+        derived_from: ["?D", "?E", "?F"]
+
+  # 3. ASA Congruence (Angle-Side-Angle)
+  - name: "asa_congruence"
+    category: "congruence"
+    description: "If two angles and the included side of one triangle are equal to two angles and the included side of another, the triangles are congruent (ASA)"
+
+    conditions:
+      - type: "Triangle"
+        p1: "?A"
+        p2: "?B"
+        p3: "?C"
+      - type: "Triangle"
+        p1: "?D"
+        p2: "?E"
+        p3: "?F"
+      - type: "EqualAngle"
+        angle1: "?CAB"
+        angle2: "?FDE"
+      - type: "EqualSegment"
+        segment1: "?AB"
+        segment2: "?DE"
+      - type: "EqualAngle"
+        angle1: "?ABC"
+        angle2: "?DEF"
+
+    conclusions:
+      - type: "CongruentTriangle"
+        p1: "?A"
+        p2: "?B"
+        p3: "?C"
+        p4: "?D"
+        p5: "?E"
+        p6: "?F"
+
+    variables:
+      - name: "?A"
+        type: "point"
+      - name: "?B"
+        type: "point"
+      - name: "?C"
+        type: "point"
+      - name: "?D"
+        type: "point"
+      - name: "?E"
+        type: "point"
+      - name: "?F"
+        type: "point"
+      - name: "?AB"
+        type: "segment"
+        derived_from: ["?A", "?B"]
+      - name: "?DE"
+        type: "segment"
+        derived_from: ["?D", "?E"]
+      - name: "?CAB"
+        type: "angle"
+        derived_from: ["?C", "?A", "?B"]
+      - name: "?ABC"
+        type: "angle"
+        derived_from: ["?A", "?B", "?C"]
+      - name: "?FDE"
+        type: "angle"
+        derived_from: ["?F", "?D", "?E"]
+      - name: "?DEF"
+        type: "angle"
+        derived_from: ["?D", "?E", "?F"]
+
+  # 4. AAS Congruence (Angle-Angle-Side)
+  - name: "aas_congruence"
+    category: "congruence"
+    description: "If two angles and a non-included side of one triangle are equal to the corresponding parts of another, the triangles are congruent (AAS)"
+
+    conditions:
+      - type: "Triangle"
+        p1: "?A"
+        p2: "?B"
+        p3: "?C"
+      - type: "Triangle"
+        p1: "?D"
+        p2: "?E"
+        p3: "?F"
+      - type: "EqualAngle"
+        angle1: "?ABC"
+        angle2: "?DEF"
+      - type: "EqualAngle"
+        angle1: "?BCA"
+        angle2: "?EFD"
+      - type: "EqualSegment"
+        segment1: "?CA"
+        segment2: "?FD"
+
+    conclusions:
+      - type: "CongruentTriangle"
+        p1: "?A"
+        p2: "?B"
+        p3: "?C"
+        p4: "?D"
+        p5: "?E"
+        p6: "?F"
+
+    variables:
+      - name: "?A"
+        type: "point"
+      - name: "?B"
+        type: "point"
+      - name: "?C"
+        type: "point"
+      - name: "?D"
+        type: "point"
+      - name: "?E"
+        type: "point"
+      - name: "?F"
+        type: "point"
+      - name: "?CA"
+        type: "segment"
+        derived_from: ["?C", "?A"]
+      - name: "?FD"
+        type: "segment"
+        derived_from: ["?F", "?D"]
+      - name: "?ABC"
+        type: "angle"
+        derived_from: ["?A", "?B", "?C"]
+      - name: "?BCA"
+        type: "angle"
+        derived_from: ["?B", "?C", "?A"]
+      - name: "?DEF"
+        type: "angle"
+        derived_from: ["?D", "?E", "?F"]
+      - name: "?EFD"
+        type: "angle"
+        derived_from: ["?E", "?F", "?D"]
+
+  # 5. HL Congruence (Hypotenuse-Leg for Right Triangles)
+  - name: "hl_congruence"
+    category: "congruence"
+    description: "If the hypotenuse and a leg of one right triangle are equal to the hypotenuse and leg of another, the triangles are congruent (HL)"
+
+    conditions:
+      - type: "Triangle"
+        p1: "?A"
+        p2: "?B"
+        p3: "?C"
+      - type: "Triangle"
+        p1: "?D"
+        p2: "?E"
+        p3: "?F"
+      - type: "RightAngle"
+        angle: "?ABC"
+      - type: "RightAngle"
+        angle: "?DEF"
+      - type: "EqualSegment"
+        segment1: "?AC"
+        segment2: "?DF"
+      - type: "EqualSegment"
+        segment1: "?AB"
+        segment2: "?DE"
+
+    conclusions:
+      - type: "CongruentTriangle"
+        p1: "?A"
+        p2: "?B"
+        p3: "?C"
+        p4: "?D"
+        p5: "?E"
+        p6: "?F"
+
+    variables:
+      - name: "?A"
+        type: "point"
+      - name: "?B"
+        type: "point"
+        description: "Right angle vertex"
+      - name: "?C"
+        type: "point"
+      - name: "?D"
+        type: "point"
+      - name: "?E"
+        type: "point"
+        description: "Right angle vertex"
+      - name: "?F"
+        type: "point"
+      - name: "?AB"
+        type: "segment"
+        description: "Leg 1"
+        derived_from: ["?A", "?B"]
+      - name: "?AC"
+        type: "segment"
+        description: "Hypotenuse"
+        derived_from: ["?A", "?C"]
+      - name: "?DE"
+        type: "segment"
+        description: "Leg 1"
+        derived_from: ["?D", "?E"]
+      - name: "?DF"
+        type: "segment"
+        description: "Hypotenuse"
+        derived_from: ["?D", "?F"]
+      - name: "?ABC"
+        type: "angle"
+        derived_from: ["?A", "?B", "?C"]
+      - name: "?DEF"
+        type: "angle"
+        derived_from: ["?D", "?E", "?F"]
+
+  # 6. Congruent Triangles - Symmetry
+  - name: "congruent_triangles_symmetry"
+    category: "congruence"
+    description: "If triangle ABC is congruent to triangle DEF, then triangle DEF is congruent to triangle ABC"
+
+    conditions:
+      - type: "CongruentTriangle"
+        p1: "?A"
+        p2: "?B"
+        p3: "?C"
+        p4: "?D"
+        p5: "?E"
+        p6: "?F"
+
+    conclusions:
+      - type: "CongruentTriangle"
+        p1: "?D"
+        p2: "?E"
+        p3: "?F"
+        p4: "?A"
+        p5: "?B"
+        p6: "?C"
+
+    variables:
+      - name: "?A"
+        type: "point"
+      - name: "?B"
+        type: "point"
+      - name: "?C"
+        type: "point"
+      - name: "?D"
+        type: "point"
+      - name: "?E"
+        type: "point"
+      - name: "?F"
+        type: "point"

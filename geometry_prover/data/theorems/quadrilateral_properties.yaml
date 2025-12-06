@@ -1,0 +1,336 @@
+# Quadrilateral Theorems
+# Week 8 Day 3 - Quadrilateral Support
+
+theorems:
+  # Quadrilateral angle sum
+  - name: "quadrilateral_angle_sum"
+    category: "quadrilateral_properties"
+    description: "Sum of angles in quadrilateral equals 360°"
+
+    conditions:
+      - type: "Quadrilateral"
+        p1: "?A"
+        p2: "?B"
+        p3: "?C"
+        p4: "?D"
+
+    conclusions:
+      - type: "AngleSum"
+        angles: ["?A", "?B", "?C", "?D"]
+        sum: 360.0
+
+    variables:
+      - name: "?A"
+        type: "point"
+      - name: "?B"
+        type: "point"
+      - name: "?C"
+        type: "point"
+      - name: "?D"
+        type: "point"
+
+  # Rectangle properties
+  - name: "rectangle_right_angles"
+    category: "quadrilateral_properties"
+    description: "All angles in rectangle are right angles"
+
+    conditions:
+      - type: "Rectangle"
+        p1: "?A"
+        p2: "?B"
+        p3: "?C"
+        p4: "?D"
+
+    conclusions:
+      - type: "RightAngle"
+        angle: "?angleA"
+      - type: "RightAngle"
+        angle: "?angleB"
+      - type: "RightAngle"
+        angle: "?angleC"
+      - type: "RightAngle"
+        angle: "?angleD"
+
+    variables:
+      - name: "?A"
+        type: "point"
+      - name: "?B"
+        type: "point"
+      - name: "?C"
+        type: "point"
+      - name: "?D"
+        type: "point"
+      - name: "?angleA"
+        type: "angle"
+        derived_from: ["?B", "?A", "?D"]
+      - name: "?angleB"
+        type: "angle"
+        derived_from: ["?A", "?B", "?C"]
+      - name: "?angleC"
+        type: "angle"
+        derived_from: ["?B", "?C", "?D"]
+      - name: "?angleD"
+        type: "angle"
+        derived_from: ["?A", "?D", "?C"]
+
+  # Rectangle opposite sides equal
+  - name: "rectangle_opposite_sides_equal"
+    category: "quadrilateral_properties"
+    description: "Opposite sides of rectangle are equal"
+
+    conditions:
+      - type: "Rectangle"
+        p1: "?A"
+        p2: "?B"
+        p3: "?C"
+        p4: "?D"
+
+    conclusions:
+      - type: "EqualSegment"
+        segment1: "?AB"
+        segment2: "?CD"
+      - type: "EqualSegment"
+        segment1: "?BC"
+        segment2: "?AD"
+
+    variables:
+      - name: "?A"
+        type: "point"
+      - name: "?B"
+        type: "point"
+      - name: "?C"
+        type: "point"
+      - name: "?D"
+        type: "point"
+      - name: "?AB"
+        type: "segment"
+        derived_from: ["?A", "?B"]
+      - name: "?CD"
+        type: "segment"
+        derived_from: ["?C", "?D"]
+      - name: "?BC"
+        type: "segment"
+        derived_from: ["?B", "?C"]
+      - name: "?AD"
+        type: "segment"
+        derived_from: ["?A", "?D"]
+
+  # Square all sides equal
+  - name: "square_all_sides_equal"
+    category: "quadrilateral_properties"
+    description: "All sides of square are equal"
+
+    conditions:
+      - type: "Square"
+        p1: "?A"
+        p2: "?B"
+        p3: "?C"
+        p4: "?D"
+
+    conclusions:
+      - type: "EqualSegment"
+        segment1: "?AB"
+        segment2: "?BC"
+      - type: "EqualSegment"
+        segment1: "?BC"
+        segment2: "?CD"
+      - type: "EqualSegment"
+        segment1: "?CD"
+        segment2: "?DA"
+
+    variables:
+      - name: "?A"
+        type: "point"
+      - name: "?B"
+        type: "point"
+      - name: "?C"
+        type: "point"
+      - name: "?D"
+        type: "point"
+      - name: "?AB"
+        type: "segment"
+        derived_from: ["?A", "?B"]
+      - name: "?BC"
+        type: "segment"
+        derived_from: ["?B", "?C"]
+      - name: "?CD"
+        type: "segment"
+        derived_from: ["?C", "?D"]
+      - name: "?DA"
+        type: "segment"
+        derived_from: ["?D", "?A"]
+
+  # Parallelogram opposite sides equal
+  - name: "parallelogram_opposite_sides_equal"
+    category: "quadrilateral_properties"
+    description: "Opposite sides of parallelogram are equal (for ABDC ordering)"
+
+    conditions:
+      - type: "Parallelogram"
+        p1: "?A"
+        p2: "?B"
+        p3: "?D"
+        p4: "?C"
+
+    conclusions:
+      - type: "EqualSegment"
+        segment1: "?AB"
+        segment2: "?DC"
+      - type: "EqualSegment"
+        segment1: "?BD"
+        segment2: "?CA"
+
+    variables:
+      - name: "?A"
+        type: "point"
+      - name: "?B"
+        type: "point"
+      - name: "?D"
+        type: "point"
+      - name: "?C"
+        type: "point"
+      - name: "?AB"
+        type: "segment"
+        derived_from: ["?A", "?B"]
+      - name: "?DC"
+        type: "segment"
+        derived_from: ["?D", "?C"]
+      - name: "?BD"
+        type: "segment"
+        derived_from: ["?B", "?D"]
+      - name: "?CA"
+        type: "segment"
+        derived_from: ["?C", "?A"]
+
+  # Parallelogram opposite sides parallel
+  - name: "parallelogram_opposite_sides_parallel"
+    category: "quadrilateral_properties"
+    description: "Opposite sides of parallelogram are parallel"
+
+    conditions:
+      - type: "Parallelogram"
+        p1: "?A"
+        p2: "?B"
+        p3: "?C"
+        p4: "?D"
+
+    conclusions:
+      - type: "Parallel"
+        line1: "?AB"
+        line2: "?CD"
+      - type: "Parallel"
+        line1: "?BC"
+        line2: "?AD"
+
+    variables:
+      - name: "?A"
+        type: "point"
+      - name: "?B"
+        type: "point"
+      - name: "?C"
+        type: "point"
+      - name: "?D"
+        type: "point"
+      - name: "?AB"
+        type: "line"
+        derived_from: ["?A", "?B"]
+      - name: "?CD"
+        type: "line"
+        derived_from: ["?C", "?D"]
+      - name: "?BC"
+        type: "line"
+        derived_from: ["?B", "?C"]
+      - name: "?AD"
+        type: "line"
+        derived_from: ["?A", "?D"]
+
+  # Rhombus all sides equal
+  - name: "rhombus_all_sides_equal"
+    category: "quadrilateral_properties"
+    description: "All sides of rhombus are equal"
+
+    conditions:
+      - type: "Rhombus"
+        p1: "?A"
+        p2: "?B"
+        p3: "?C"
+        p4: "?D"
+
+    conclusions:
+      - type: "EqualSegment"
+        segment1: "?AB"
+        segment2: "?BC"
+      - type: "EqualSegment"
+        segment1: "?BC"
+        segment2: "?CD"
+      - type: "EqualSegment"
+        segment1: "?CD"
+        segment2: "?DA"
+
+    variables:
+      - name: "?A"
+        type: "point"
+      - name: "?B"
+        type: "point"
+      - name: "?C"
+        type: "point"
+      - name: "?D"
+        type: "point"
+      - name: "?AB"
+        type: "segment"
+        derived_from: ["?A", "?B"]
+      - name: "?BC"
+        type: "segment"
+        derived_from: ["?B", "?C"]
+      - name: "?CD"
+        type: "segment"
+        derived_from: ["?C", "?D"]
+      - name: "?DA"
+        type: "segment"
+        derived_from: ["?D", "?A"]
+
+  # Two pairs of parallel sides make parallelogram
+  - name: "two_parallel_pairs_make_parallelogram"
+    category: "quadrilateral_properties"
+    description: "If BD ∥ AC and CD ∥ AB, then ABDC is a parallelogram"
+
+    conditions:
+      - type: "Parallel"
+        line1: "?BD"
+        line2: "?AC"
+      - type: "Parallel"
+        line1: "?CD"
+        line2: "?AB"
+
+    conclusions:
+      - type: "Parallelogram"
+        p1: "?A"
+        p2: "?B"
+        p3: "?D"
+        p4: "?C"
+
+    constraints:
+      - type: "distinct"
+        vars: ["?A", "?B", "?C", "?D"]
+
+    variables:
+      - name: "?A"
+        type: "point"
+      - name: "?B"
+        type: "point"
+      - name: "?C"
+        type: "point"
+      - name: "?D"
+        type: "point"
+      - name: "?AB"
+        type: "line"
+        derived_from: ["?A", "?B"]
+      - name: "?AC"
+        type: "line"
+        derived_from: ["?A", "?C"]
+      - name: "?BD"
+        type: "line"
+        derived_from: ["?B", "?D"]
+      - name: "?CD"
+        type: "line"
+        derived_from: ["?C", "?D"]

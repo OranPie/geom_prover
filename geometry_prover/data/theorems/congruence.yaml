@@ -1,0 +1,71 @@
+theorems:
+  # SSS Congruence
+  - name: "sss_congruence"
+    category: "congruence"
+    description: "If three sides of one triangle equal three sides of another, triangles are congruent (SSS)"
+
+    conditions:
+      - type: "Triangle"
+        p1: "?A"
+        p2: "?B"
+        p3: "?C"
+      - type: "Triangle"
+        p1: "?D"
+        p2: "?E"
+        p3: "?F"
+      - type: "EqualSegment"
+        segment1: "?AB"
+        segment2: "?DE"
+      - type: "EqualSegment"
+        segment1: "?BC"
+        segment2: "?EF"
+      - type: "EqualSegment"
+        segment1: "?CA"
+        segment2: "?FD"
+
+    conclusions:
+      - type: "CongruentTriangle"
+        p1: "?A"
+        p2: "?B"
+        p3: "?C"
+        p4: "?D"
+        p5: "?E"
+        p6: "?F"
+
+    variables:
+      - name: "?A"
+        type: "point"
+      - name: "?B"
+        type: "point"
+      - name: "?C"
+        type: "point"
+      - name: "?D"
+        type: "point"
+      - name: "?E"
+        type: "point"
+      - name: "?F"
+        type: "point"
+      - name: "?AB"
+        type: "segment"
+        derived_from: ["?A", "?B"]
+      - name: "?BC"
+        type: "segment"
+        derived_from: ["?B", "?C"]
+      - name: "?CA"
+        type: "segment"
+        derived_from: ["?C", "?A"]
+      - name: "?DE"
+        type: "segment"
+        derived_from: ["?D", "?E"]
+      - name: "?EF"
+        type: "segment"
+        derived_from: ["?E", "?F"]
+      - name: "?FD"
+        type: "segment"
+        derived_from: ["?F", "?D"]
+      - name: "?triABC"
+        type: "triangle"
+        derived_from: ["?A", "?B", "?C"]
+      - name: "?triDEF"
+        type: "triangle"
+        derived_from: ["?D", "?E", "?F"]

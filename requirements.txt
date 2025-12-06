@@ -1,0 +1,29 @@
+# Core dependencies
+numpy>=1.24.0
+sympy>=1.12
+
+# Numeric solving
+scipy>=1.10.0
+
+# YAML parsing
+PyYAML>=6.0
+
+# Visualization
+matplotlib>=3.7.0
+
+# Testing
+pytest>=7.4.0
+pytest-cov>=4.1.0
+hypothesis>=6.82.0
+
+# Code quality
+black>=23.7.0
+pylint>=2.17.0
+mypy>=1.4.0
+
+# Type stubs
+types-PyYAML>=6.0.0
+
+# Optional: For web UI (Phase 8)
+# fastapi>=0.100.0
+# uvicorn>=0.23.0

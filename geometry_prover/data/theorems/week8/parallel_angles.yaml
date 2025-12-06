@@ -1,0 +1,194 @@
+# Parallel Line and Angle Theorems - Week 8
+# Simplified versions without complex transversal patterns
+
+theorems:
+  # 1. Supplementary Angles - Symmetry
+  - name: "supplementary_symmetry"
+    category: "angle_properties"
+    description: "If angle A is supplementary to angle B, then angle B is supplementary to angle A"
+
+    conditions:
+      - type: "SupplementaryAngle"
+        angle1: "?A"
+        angle2: "?B"
+
+    conclusions:
+      - type: "SupplementaryAngle"
+        angle1: "?B"
+        angle2: "?A"
+
+    variables:
+      - name: "?A"
+        type: "angle"
+      - name: "?B"
+        type: "angle"
+
+  # 2. Right Angle - Perpendicular Lines
+  - name: "perpendicular_makes_right_angle"
+    category: "angle_properties"
+    description: "If two lines are perpendicular, they form right angles"
+
+    conditions:
+      - type: "Perpendicular"
+        line1: "?AB"
+        line2: "?CD"
+      - type: "On"
+        point: "?P"
+        line: "?AB"
+      - type: "On"
+        point: "?P"
+        line: "?CD"
+
+    conclusions:
+      - type: "RightAngle"
+        angle: "?APC"
+
+    variables:
+      - name: "?A"
+        type: "point"
+      - name: "?B"
+        type: "point"
+      - name: "?C"
+        type: "point"
+      - name: "?P"
+        type: "point"
+        description: "Intersection point"
+      - name: "?AB"
+        type: "line"
+        derived_from: ["?A", "?B"]
+      - name: "?CD"
+        type: "line"
+        derived_from: ["?C", "?D"]
+      - name: "?APC"
+        type: "angle"
+        derived_from: ["?A", "?P", "?C"]
+
+  # 3. Similar Triangles - AA (Angle-Angle)
+  - name: "aa_similarity"
+    category: "similarity"
+    description: "If two angles of one triangle are equal to two angles of another, the triangles are similar (AA)"
+
+    conditions:
+      - type: "Triangle"
+        p1: "?A"
+        p2: "?B"
+        p3: "?C"
+      - type: "Triangle"
+        p1: "?D"
+        p2: "?E"
+        p3: "?F"
+      - type: "EqualAngle"
+        angle1: "?ABC"
+        angle2: "?DEF"
+      - type: "EqualAngle"
+        angle1: "?BCA"
+        angle2: "?EFD"
+
+    conclusions:
+      - type: "SimilarTriangle"
+        p1: "?A"
+        p2: "?B"
+        p3: "?C"
+        p4: "?D"
+        p5: "?E"
+        p6: "?F"
+
+    variables:
+      - name: "?A"
+        type: "point"
+      - name: "?B"
+        type: "point"
+      - name: "?C"
+        type: "point"
+      - name: "?D"
+        type: "point"
+      - name: "?E"
+        type: "point"
+      - name: "?F"
+        type: "point"
+      - name: "?ABC"
+        type: "angle"
+        derived_from: ["?A", "?B", "?C"]
+      - name: "?BCA"
+        type: "angle"
+        derived_from: ["?B", "?C", "?A"]
+      - name: "?DEF"
+        type: "angle"
+        derived_from: ["?D", "?E", "?F"]
+      - name: "?EFD"
+        type: "angle"
+        derived_from: ["?E", "?F", "?D"]
+
+  # 4. Congruent Implies Similar
+  - name: "congruent_implies_similar"
+    category: "similarity"
+    description: "If two triangles are congruent, they are also similar"
+
+    conditions:
+      - type: "CongruentTriangle"
+        p1: "?A"
+        p2: "?B"
+        p3: "?C"
+        p4: "?D"
+        p5: "?E"
+        p6: "?F"
+
+    conclusions:
+      - type: "SimilarTriangle"
+        p1: "?A"
+        p2: "?B"
+        p3: "?C"
+        p4: "?D"
+        p5: "?E"
+        p6: "?F"
+
+    variables:
+      - name: "?A"
+        type: "point"
+      - name: "?B"
+        type: "point"
+      - name: "?C"
+        type: "point"
+      - name: "?D"
+        type: "point"
+      - name: "?E"
+        type: "point"
+      - name: "?F"
+        type: "point"
+
+  # 5. Similar Triangles - Symmetry
+  - name: "similar_triangles_symmetry"
+    category: "similarity"
+    description: "If triangle ABC is similar to triangle DEF, then triangle DEF is similar to triangle ABC"
+
+    conditions:
+      - type: "SimilarTriangle"
+        p1: "?A"
+        p2: "?B"
+        p3: "?C"
+        p4: "?D"
+        p5: "?E"
+        p6: "?F"
+
+    conclusions:
+      - type: "SimilarTriangle"
+        p1: "?D"
+        p2: "?E"
+        p3: "?F"
+        p4: "?A"
+        p5: "?B"
+        p6: "?C"
+
+    variables:
+      - name: "?A"
+        type: "point"
+      - name: "?B"
+        type: "point"
+      - name: "?C"
+        type: "point"
+      - name: "?D"
+        type: "point"
+      - name: "?E"
+        type: "point"
+      - name: "?F"
+        type: "point"

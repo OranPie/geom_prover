@@ -1,0 +1,229 @@
+# Coordinate Geometry Theorems
+# 平面直角坐标系定理
+# Support for Cartesian coordinate system
+
+theorems:
+  # Distance formula theorem
+  - name: "distance_formula"
+    category: "coordinate_geometry"
+    description: "Distance between two points from their coordinates"
+
+    conditions:
+      - type: "Coordinates"
+        point: "?P"
+        x: "?x1"
+        y: "?y1"
+      - type: "Coordinates"
+        point: "?Q"
+        x: "?x2"
+        y: "?y2"
+
+    conclusions:
+      - type: "DistanceValue"
+        point1: "?P"
+        point2: "?Q"
+        distance: "?d"
+
+    variables:
+      - name: "?P"
+        type: "point"
+      - name: "?Q"
+        type: "point"
+      - name: "?x1"
+        type: "any"
+      - name: "?y1"
+        type: "any"
+      - name: "?x2"
+        type: "any"
+      - name: "?y2"
+        type: "any"
+      - name: "?d"
+        type: "any"
+        description: "sqrt((x2-x1)^2 + (y2-y1)^2)"
+
+  # Midpoint formula theorem
+  - name: "midpoint_formula"
+    category: "coordinate_geometry"
+    description: "Midpoint coordinates from endpoint coordinates"
+
+    conditions:
+      - type: "Coordinates"
+        point: "?A"
+        x: "?x1"
+        y: "?y1"
+      - type: "Coordinates"
+        point: "?B"
+        x: "?x2"
+        y: "?y2"
+      - type: "Midpoint"
+        midpoint: "?M"
+        point1: "?A"
+        point2: "?B"
+
+    conclusions:
+      - type: "Coordinates"
+        point: "?M"
+        x: "?xm"
+        y: "?ym"
+
+    variables:
+      - name: "?A"
+        type: "point"
+      - name: "?B"
+        type: "point"
+      - name: "?M"
+        type: "point"
+      - name: "?x1"
+        type: "any"
+      - name: "?y1"
+        type: "any"
+      - name: "?x2"
+        type: "any"
+      - name: "?y2"
+        type: "any"
+      - name: "?xm"
+        type: "any"
+        description: "(x1+x2)/2"
+      - name: "?ym"
+        type: "any"
+        description: "(y1+y2)/2"
+
+  # Slope from coordinates
+  - name: "slope_from_coordinates"
+    category: "coordinate_geometry"
+    description: "Slope from two point coordinates"
+
+    conditions:
+      - type: "Coordinates"
+        point: "?P"
+        x: "?x1"
+        y: "?y1"
+      - type: "Coordinates"
+        point: "?Q"
+        x: "?x2"
+        y: "?y2"
+
+    conclusions:
+      - type: "Slope"
+        line: "?PQ"
+        slope: "?m"
+
+    variables:
+      - name: "?P"
+        type: "point"
+      - name: "?Q"
+        type: "point"
+      - name: "?x1"
+        type: "any"
+      - name: "?y1"
+        type: "any"
+      - name: "?x2"
+        type: "any"
+      - name: "?y2"
+        type: "any"
+      - name: "?PQ"
+        type: "line"
+        derived_from: ["?P", "?Q"]
+      - name: "?m"
+        type: "any"
+        description: "(y2-y1)/(x2-x1)"
+
+  # Line equation from two points
+  - name: "line_equation_from_points"
+    category: "coordinate_geometry"
+    description: "Line equation from two point coordinates"
+
+    conditions:
+      - type: "Coordinates"
+        point: "?P"
+        x: "?x1"
+        y: "?y1"
+      - type: "Coordinates"
+        point: "?Q"
+        x: "?x2"
+        y: "?y2"
+
+    conclusions:
+      - type: "LineEquation"
+        line: "?PQ"
+        a: "?a"
+        b: "?b"
+        c: "?c"
+
+    variables:
+      - name: "?P"
+        type: "point"
+      - name: "?Q"
+        type: "point"
+      - name: "?x1"
+        type: "any"
+      - name: "?y1"
+        type: "any"
+      - name: "?x2"
+        type: "any"
+      - name: "?y2"
+        type: "any"
+      - name: "?PQ"
+        type: "line"
+        derived_from: ["?P", "?Q"]
+      - name: "?a"
+        type: "any"
+      - name: "?b"
+        type: "any"
+      - name: "?c"
+        type: "any"
+
+  # Perpendicular slopes
+  - name: "perpendicular_slopes"
+    category: "coordinate_geometry"
+    description: "Perpendicular lines have negative reciprocal slopes"
+
+    conditions:
+      - type: "Perpendicular"
+        line1: "?L1"
+        line2: "?L2"
+      - type: "Slope"
+        line: "?L1"
+        slope: "?m1"
+
+    conclusions:
+      - type: "Slope"
+        line: "?L2"
+        slope: "?m2"
+
+    variables:
+      - name: "?L1"
+        type: "line"
+      - name: "?L2"
+        type: "line"
+      - name: "?m1"
+        type: "any"
+      - name: "?m2"
+        type: "any"
+        description: "-1/m1"
+
+  # Parallel slopes
+  - name: "parallel_slopes"
+    category: "coordinate_geometry"
+    description: "Parallel lines have equal slopes"
+
+    conditions:
+      - type: "Parallel"
+        line1: "?L1"
+        line2: "?L2"
+      - type: "Slope"
+        line: "?L1"
+        slope: "?m"
+
+    conclusions:
+      - type: "Slope"
+        line: "?L2"
+        slope: "?m"
+
+    variables:
+      - name: "?L1"
+        type: "line"
+      - name: "?L2"
+        type: "line"
+      - name: "?m"
+        type: "any"

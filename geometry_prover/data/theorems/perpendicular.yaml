@@ -1,0 +1,49 @@
+# Perpendicular Theorems
+# Perpendicular bisector and related theorems
+
+theorems:
+  # Perpendicular bisector from two equidistant points
+  - name: "perpendicular_bisector_two_points"
+    category: "perpendicular"
+    description: "If two points are equidistant from endpoints of a segment, the line through them is perpendicular bisector"
+
+    conditions:
+      - type: "EqualSegment"
+        segment1: "?AB"
+        segment2: "?AC"
+      - type: "EqualSegment"
+        segment1: "?DB"
+        segment2: "?DC"
+
+    conclusions:
+      - type: "Perpendicular"
+        line1: "?AD"
+        line2: "?BC"
+
+    variables:
+      - name: "?A"
+        type: "point"
+      - name: "?B"
+        type: "point"
+      - name: "?C"
+        type: "point"
+      - name: "?D"
+        type: "point"
+      - name: "?AB"
+        type: "segment"
+        derived_from: ["?A", "?B"]
+      - name: "?AC"
+        type: "segment"
+        derived_from: ["?A", "?C"]
+      - name: "?DB"
+        type: "segment"
+        derived_from: ["?D", "?B"]
+      - name: "?DC"
+        type: "segment"
+        derived_from: ["?D", "?C"]
+      - name: "?AD"
+        type: "line"
+        derived_from: ["?A", "?D"]
+      - name: "?BC"
+        type: "line"
+        derived_from: ["?B", "?C"]

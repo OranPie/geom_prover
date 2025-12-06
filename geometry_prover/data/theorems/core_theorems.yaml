@@ -1,0 +1,245 @@
+# Core Geometry Theorems
+# A collection of fundamental geometry theorems for automated reasoning
+
+theorems:
+  # 1. Equality - Symmetry
+  - name: "equality_symmetry"
+    category: "equality_properties"
+    description: "If AB = CD, then CD = AB (symmetry of equality)"
+
+    conditions:
+      - type: "EqualSegment"
+        segment1: "?AB"
+        segment2: "?CD"
+
+    conclusions:
+      - type: "EqualSegment"
+        segment1: "?CD"
+        segment2: "?AB"
+
+    variables:
+      - name: "?AB"
+        type: "segment"
+        description: "First segment"
+      - name: "?CD"
+        type: "segment"
+        description: "Second segment"
+
+  # 2. Equality - Transitivity
+  - name: "equality_transitivity"
+    category: "equality_properties"
+    description: "If AB = CD and CD = EF, then AB = EF (transitivity)"
+
+    conditions:
+      - type: "EqualSegment"
+        segment1: "?AB"
+        segment2: "?CD"
+      - type: "EqualSegment"
+        segment1: "?CD"
+        segment2: "?EF"
+
+    conclusions:
+      - type: "EqualSegment"
+        segment1: "?AB"
+        segment2: "?EF"
+
+    constraints:
+      - type: "not_equal"
+        var1: "?AB"
+        var2: "?EF"
+
+    variables:
+      - name: "?AB"
+        type: "segment"
+      - name: "?CD"
+        type: "segment"
+      - name: "?EF"
+        type: "segment"
+
+  # 3. Angle Equality - Symmetry
+  - name: "angle_equality_symmetry"
+    category: "angle_properties"
+    description: "If angle ABC = angle DEF, then angle DEF = angle ABC"
+
+    conditions:
+      - type: "EqualAngle"
+        angle1: "?ABC"
+        angle2: "?DEF"
+
+    conclusions:
+      - type: "EqualAngle"
+        angle1: "?DEF"
+        angle2: "?ABC"
+
+    variables:
+      - name: "?ABC"
+        type: "angle"
+      - name: "?DEF"
+        type: "angle"
+
+  # 4. Angle Equality - Transitivity
+  - name: "angle_equality_transitivity"
+    category: "angle_properties"
+    description: "If angle ABC = angle DEF and angle DEF = angle GHI, then angle ABC = angle GHI"
+
+    conditions:
+      - type: "EqualAngle"
+        angle1: "?ABC"
+        angle2: "?DEF"
+      - type: "EqualAngle"
+        angle1: "?DEF"
+        angle2: "?GHI"
+
+    conclusions:
+      - type: "EqualAngle"
+        angle1: "?ABC"
+        angle2: "?GHI"
+
+    constraints:
+      - type: "not_equal"
+        var1: "?ABC"
+        var2: "?GHI"
+
+    variables:
+      - name: "?ABC"
+        type: "angle"
+      - name: "?DEF"
+        type: "angle"
+      - name: "?GHI"
+        type: "angle"
+
+  # 5. Parallel Lines - Symmetry
+  - name: "parallel_symmetry"
+    category: "parallel_lines"
+    description: "If AB is parallel to CD, then CD is parallel to AB"
+
+    conditions:
+      - type: "Parallel"
+        line1: "?AB"
+        line2: "?CD"
+
+    conclusions:
+      - type: "Parallel"
+        line1: "?CD"
+        line2: "?AB"
+
+    variables:
+      - name: "?AB"
+        type: "line"
+      - name: "?CD"
+        type: "line"
+
+  # 6. Parallel Lines - Transitivity
+  - name: "parallel_transitivity"
+    category: "parallel_lines"
+    description: "If AB || CD and CD || EF, then AB || EF"
+
+    conditions:
+      - type: "Parallel"
+        line1: "?AB"
+        line2: "?CD"
+      - type: "Parallel"
+        line1: "?CD"
+        line2: "?EF"
+
+    conclusions:
+      - type: "Parallel"
+        line1: "?AB"
+        line2: "?EF"
+
+    constraints:
+      - type: "not_equal"
+        var1: "?AB"
+        var2: "?EF"
+
+    variables:
+      - name: "?AB"
+        type: "line"
+      - name: "?CD"
+        type: "line"
+      - name: "?EF"
+        type: "line"
+
+  # 7. Perpendicular Lines - Symmetry
+  - name: "perpendicular_symmetry"
+    category: "perpendicular_lines"
+    description: "If AB is perpendicular to CD, then CD is perpendicular to AB"
+
+    conditions:
+      - type: "Perpendicular"
+        line1: "?AB"
+        line2: "?CD"
+
+    conclusions:
+      - type: "Perpendicular"
+        line1: "?CD"
+        line2: "?AB"
+
+    variables:
+      - name: "?AB"
+        type: "line"
+      - name: "?CD"
+        type: "line"
+
+  # 8. Right Angle Definition
+  - name: "right_angle_reflexive"
+    category: "angle_properties"
+    description: "If angle ABC is a right angle, it remains a right angle"
+    references:
+      - "Fundamental property"
+
+    conditions:
+      - type: "RightAngle"
+        angle: "?ABC"
+
+    conclusions:
+      - type: "RightAngle"
+        angle: "?ABC"
+
+    variables:
+      - name: "?ABC"
+        type: "angle"
+
+  # 9. Equal Segments - Reflexive
+  - name: "segment_equality_reflexive"
+    category: "equality_properties"
+    description: "Any segment is equal to itself (reflexive property)"
+
+    conditions:
+      - type: "EqualSegment"
+        segment1: "?AB"
+        segment2: "?AB"
+
+    conclusions:
+      - type: "EqualSegment"
+        segment1: "?AB"
+        segment2: "?AB"
+
+    variables:
+      - name: "?AB"
+        type: "segment"
+
+  # 10. Collinearity - Symmetry
+  - name: "collinearity_symmetry"
+    category: "point_properties"
+    description: "If A, B, C are collinear, then C, B, A are collinear"
+
+    conditions:
+      - type: "Collinear"
+        point1: "?A"
+        point2: "?B"
+        point3: "?C"
+
+    conclusions:
+      - type: "Collinear"
+        point1: "?C"
+        point2: "?B"
+        point3: "?A"
+
+    variables:
+      - name: "?A"
+        type: "point"
+      - name: "?B"
+        type: "point"
+      - name: "?C"
+        type: "point"

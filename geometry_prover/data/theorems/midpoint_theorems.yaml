@@ -1,0 +1,311 @@
+# Midpoint Theorems (中点定理)
+# Fundamental theorems about triangle midpoints and parallel lines
+
+theorems:
+  # Classic Midpoint Theorem (Triangle Midsegment Theorem)
+  - name: "triangle_midsegment_parallel"
+    category: "midpoint_theorems"
+    description: "Line segment connecting midpoints of two sides is parallel to third side"
+
+    conditions:
+      - type: "Triangle"
+        p1: "?A"
+        p2: "?B"
+        p3: "?C"
+      - type: "Midpoint"
+        midpoint: "?M"
+        point1: "?A"
+        point2: "?B"
+      - type: "Midpoint"
+        midpoint: "?N"
+        point1: "?A"
+        point2: "?C"
+
+    conclusions:
+      - type: "Parallel"
+        line1: "?MN"
+        line2: "?BC"
+
+    variables:
+      - name: "?A"
+        type: "point"
+      - name: "?B"
+        type: "point"
+      - name: "?C"
+        type: "point"
+      - name: "?M"
+        type: "point"
+      - name: "?N"
+        type: "point"
+      - name: "?MN"
+        type: "line"
+        derived_from: ["?M", "?N"]
+      - name: "?BC"
+        type: "line"
+        derived_from: ["?B", "?C"]
+
+  # Midsegment length is half of third side
+  - name: "triangle_midsegment_length"
+    category: "midpoint_theorems"
+    description: "Midsegment length equals half the length of the parallel side"
+
+    conditions:
+      - type: "Triangle"
+        p1: "?A"
+        p2: "?B"
+        p3: "?C"
+      - type: "Midpoint"
+        midpoint: "?M"
+        point1: "?A"
+        point2: "?B"
+      - type: "Midpoint"
+        midpoint: "?N"
+        point1: "?A"
+        point2: "?C"
+
+    conclusions:
+      - type: "ProportionalSegment"
+        segment1: "?MN"
+        segment2: "?BC"
+        ratio: 0.5
+
+    variables:
+      - name: "?A"
+        type: "point"
+      - name: "?B"
+        type: "point"
+      - name: "?C"
+        type: "point"
+      - name: "?M"
+        type: "point"
+      - name: "?N"
+        type: "point"
+      - name: "?MN"
+        type: "segment"
+        derived_from: ["?M", "?N"]
+      - name: "?BC"
+        type: "segment"
+        derived_from: ["?B", "?C"]
+
+  # CRITICAL: Parallel through midpoint bisects the third side (Converse theorem)
+  # This is the KEY theorem for the user's problem
+  - name: "parallel_through_midpoint_bisects_AC"
+    category: "midpoint_theorems"
+    description: "Line through midpoint of BC parallel to AB bisects AC"
+
+    conditions:
+      - type: "Triangle"
+        p1: "?A"
+        p2: "?B"
+        p3: "?C"
+      - type: "Midpoint"
+        midpoint: "?D"
+        point1: "?B"
+        point2: "?C"
+      - type: "On"
+        point: "?E"
+        line: "?AC"
+      - type: "On"
+        point: "?D"
+        line: "?DE"
+      - type: "Parallel"
+        line1: "?DE"
+        line2: "?AB"
+
+    conclusions:
+      - type: "Midpoint"
+        midpoint: "?E"
+        point1: "?A"
+        point2: "?C"
+
+    variables:
+      - name: "?A"
+        type: "point"
+      - name: "?B"
+        type: "point"
+      - name: "?C"
+        type: "point"
+      - name: "?D"
+        type: "point"
+      - name: "?E"
+        type: "point"
+      - name: "?AC"
+        type: "line"
+        derived_from: ["?A", "?C"]
+      - name: "?AB"
+        type: "line"
+        derived_from: ["?A", "?B"]
+      - name: "?DE"
+        type: "line"
+        derived_from: ["?D", "?E"]
+
+  # Symmetric version: parallel through midpoint bisects AB
+  - name: "parallel_through_midpoint_bisects_AB"
+    category: "midpoint_theorems"
+    description: "Line through midpoint of BC parallel to AC bisects AB"
+
+    conditions:
+      - type: "Triangle"
+        p1: "?A"
+        p2: "?B"
+        p3: "?C"
+      - type: "Midpoint"
+        midpoint: "?D"
+        point1: "?B"
+        point2: "?C"
+      - type: "On"
+        point: "?F"
+        line: "?AB"
+      - type: "On"
+        point: "?D"
+        line: "?DF"
+      - type: "Parallel"
+        line1: "?DF"
+        line2: "?AC"
+
+    conclusions:
+      - type: "Midpoint"
+        midpoint: "?F"
+        point1: "?A"
+        point2: "?B"
+
+    variables:
+      - name: "?A"
+        type: "point"
+      - name: "?B"
+        type: "point"
+      - name: "?C"
+        type: "point"
+      - name: "?D"
+        type: "point"
+      - name: "?F"
+        type: "point"
+      - name: "?AB"
+        type: "line"
+        derived_from: ["?A", "?B"]
+      - name: "?AC"
+        type: "line"
+        derived_from: ["?A", "?C"]
+      - name: "?DF"
+        type: "line"
+        derived_from: ["?D", "?F"]
+
+  # Converse: If line through midpoint bisects another side, it's parallel to third side
+  - name: "midpoint_bisects_implies_parallel"
+    category: "midpoint_theorems"
+    description: "If D is midpoint of BC and E is midpoint of AC, then DE || AB"
+
+    conditions:
+      - type: "Triangle"
+        p1: "?A"
+        p2: "?B"
+        p3: "?C"
+      - type: "Midpoint"
+        midpoint: "?D"
+        point1: "?B"
+        point2: "?C"
+      - type: "Midpoint"
+        midpoint: "?E"
+        point1: "?A"
+        point2: "?C"
+
+    conclusions:
+      - type: "Parallel"
+        line1: "?DE"
+        line2: "?AB"
+
+    variables:
+      - name: "?A"
+        type: "point"
+      - name: "?B"
+        type: "point"
+      - name: "?C"
+        type: "point"
+      - name: "?D"
+        type: "point"
+      - name: "?E"
+        type: "point"
+      - name: "?DE"
+        type: "line"
+        derived_from: ["?D", "?E"]
+      - name: "?AB"
+        type: "line"
+        derived_from: ["?A", "?B"]
+
+  # Equal midpoint segments in isosceles triangle
+  - name: "isosceles_midpoint_segments_equal"
+    category: "midpoint_theorems"
+    description: "In isosceles triangle, segments from base midpoint to side midpoints are equal"
+
+    conditions:
+      - type: "IsoscelesTriangle"
+        p1: "?A"
+        p2: "?B"
+        p3: "?C"
+      - type: "Midpoint"
+        midpoint: "?D"
+        point1: "?B"
+        point2: "?C"
+      - type: "Midpoint"
+        midpoint: "?E"
+        point1: "?A"
+        point2: "?C"
+      - type: "Midpoint"
+        midpoint: "?F"
+        point1: "?A"
+        point2: "?B"
+
+    conclusions:
+      - type: "EqualSegment"
+        segment1: "?DE"
+        segment2: "?DF"
+
+    variables:
+      - name: "?A"
+        type: "point"
+      - name: "?B"
+        type: "point"
+      - name: "?C"
+        type: "point"
+      - name: "?D"
+        type: "point"
+      - name: "?E"
+        type: "point"
+      - name: "?F"
+        type: "point"
+      - name: "?DE"
+        type: "segment"
+        derived_from: ["?D", "?E"]
+      - name: "?DF"
+        type: "segment"
+        derived_from: ["?D", "?F"]
+
+  # Midpoint implies equal segments
+  - name: "midpoint_equal_segments"
+    category: "midpoint_theorems"
+    description: "If M is midpoint of AB, then AM = MB"
+
+    conditions:
+      - type: "Midpoint"
+        midpoint: "?M"
+        point1: "?A"
+        point2: "?B"
+
+    conclusions:
+      - type: "EqualSegment"
+        segment1: "?AM"
+        segment2: "?MB"
+
+    variables:
+      - name: "?A"
+        type: "point"
+      - name: "?B"
+        type: "point"
+      - name: "?M"
+        type: "point"
+      - name: "?AM"
+        type: "segment"
+        derived_from: ["?A", "?M"]
+      - name: "?MB"
+        type: "segment"
+        derived_from: ["?M", "?B"]
