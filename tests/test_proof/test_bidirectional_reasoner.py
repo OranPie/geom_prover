@@ -284,6 +284,54 @@ class TestBidirectionalReasoner:
         total_steps = stats['forward_steps'] + stats['backward_steps']
         assert total_steps > 0
 
+    def test_converges_when_no_progress(self):
+        """Bidirectional search should stop once both directions stall."""
+        theorem = (TheoremBuilder("symmetry")
+                   .add_variable(Variable("?AB", "segment"))
+                   .add_variable(Variable("?CD", "segment"))
+                   .add_condition(PatternTemplate.equal_segment("?AB", "?CD"))
+                   .add_conclusion(PatternTemplate.equal_segment("?CD", "?AB"))
+                   .build())
+
+        engine = TheoremEngine([theorem])
+        reasoner = BidirectionalReasoner(engine)
+
+        seg_ab = Segment(Point("A"), Point("B"))
+        seg_cd = Segment(Point("C"), Point("D"))
+        seg_ef = Segment(Point("E"), Point("F"))
+        seg_gh = Segment(Point("G"), Point("H"))
+
+        initial_facts = [EqualSegment(seg_ab, seg_cd)]
+        unreachable_goal = [EqualSegment(seg_ef, seg_gh)]
+
+        result = reasoner.prove(initial_facts, unreachable_goal, max_depth=8)
+
+        assert result.success is False
+        # The search should stop before exhausting the depth bound once it stalls
+        assert result.statistics['iterations'] < 8
+
+    def test_runs_one_iteration_at_depth_boundary(self):
+        """A single iteration should still execute when max_depth is 1."""
+        theorem = (TheoremBuilder("symmetry")
+                   .add_variable(Variable("?AB", "segment"))
+                   .add_variable(Variable("?CD", "segment"))
+                   .add_condition(PatternTemplate.equal_segment("?AB", "?CD"))
+                   .add_conclusion(PatternTemplate.equal_segment("?CD", "?AB"))
+                   .build())
+
+        engine = TheoremEngine([theorem])
+        reasoner = BidirectionalReasoner(engine)
+
+        seg_ab = Segment(Point("A"), Point("B"))
+        seg_cd = Segment(Point("C"), Point("D"))
+        initial_facts = [EqualSegment(seg_ab, seg_cd)]
+        goals = [EqualSegment(seg_cd, seg_ab)]
+
+        result = reasoner.prove(initial_facts, goals, max_depth=1)
+
+        assert result.statistics['iterations'] == 1
+        assert result.success is True
+
     def test_prove_with_real_theorem_library(self):
         """Test bidirectional reasoning with actual theorem library."""
         theorem_dir = Path(__file__).parent.parent.parent / "geometry_prover" / "data" / "theorems"

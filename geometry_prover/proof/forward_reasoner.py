@@ -122,13 +122,9 @@ class ForwardReasoner:
         numeric_derivations = 0
         new_facts_this_iteration = []  # Initialize before loop
 
-        while iteration < max_iterations:
+        while iteration < max_iterations and iteration < max_depth:
             iteration += 1
             state.depth = iteration
-
-            # Check depth limit
-            if iteration >= max_depth:
-                break
 
             # Check fact limit
             if len(state.fact_base._facts) >= max_facts:

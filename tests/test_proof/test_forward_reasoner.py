@@ -10,7 +10,14 @@ from pathlib import Path
 
 from geometry_prover.proof.forward_reasoner import ForwardReasoner
 from geometry_prover.theorems.engine import TheoremEngine
-from geometry_prover.facts.fact_types import EqualSegment, EqualAngle, Parallel
+from geometry_prover.facts.fact_types import (
+    EqualSegment,
+    EqualAngle,
+    Parallel,
+    Triangle,
+    CongruentTriangle,
+    SimilarTriangle,
+)
 from geometry_prover.utils.geometry_objects import Point, Segment, Angle, Line
 from geometry_prover.theorems.theorem import TheoremBuilder
 from geometry_prover.theorems.pattern import Variable, PatternTemplate
@@ -134,6 +141,27 @@ class TestForwardReasoner:
         result = reasoner.reason(initial_facts, max_depth=1)
 
         assert result.statistics['iterations'] <= 1
+
+    def test_reason_still_runs_on_depth_boundary(self):
+        """The first iteration should execute when max_depth is 1."""
+        theorem = (TheoremBuilder("symmetry")
+                   .add_variable(Variable("?AB", "segment"))
+                   .add_variable(Variable("?CD", "segment"))
+                   .add_condition(PatternTemplate.equal_segment("?AB", "?CD"))
+                   .add_conclusion(PatternTemplate.equal_segment("?CD", "?AB"))
+                   .build())
+
+        engine = TheoremEngine([theorem])
+        reasoner = ForwardReasoner(engine)
+
+        seg_ab = Segment(Point("A"), Point("B"))
+        seg_cd = Segment(Point("C"), Point("D"))
+        initial_facts = [EqualSegment(seg_ab, seg_cd)]
+
+        result = reasoner.reason(initial_facts, max_depth=1)
+
+        assert result.statistics['iterations'] == 1
+        assert result.statistics['derived_facts'] >= 1
 
     def test_reason_max_facts_limit(self):
         """Test that max_facts limit is respected."""
@@ -301,6 +329,41 @@ class TestForwardReasoner:
 
         assert stats['total_facts'] >= len(initial_facts)
         assert stats['derived_facts'] == stats['total_facts'] - len(initial_facts)
+
+    def test_sss_congruence_yields_similarity(self):
+        """SSS congruence should derive congruent and similar triangles."""
+
+        theorem_dir = (
+            Path(__file__).parent.parent.parent / "geometry_prover" / "data" / "theorems"
+        )
+        engine = TheoremEngine()
+        if theorem_dir.exists():
+            engine.load_library(str(theorem_dir))
+
+        reasoner = ForwardReasoner(engine)
+
+        # Triangles ABC and DEF with all three pairs of equal sides (SSS)
+        a, b, c = Point("A"), Point("B"), Point("C")
+        d, e, f = Point("D"), Point("E"), Point("F")
+
+        triangle_facts = [Triangle(a, b, c), Triangle(d, e, f)]
+        equality_facts = [
+            EqualSegment(Segment(a, b), Segment(d, e)),
+            EqualSegment(Segment(b, c), Segment(e, f)),
+            EqualSegment(Segment(c, a), Segment(f, d)),
+        ]
+
+        result = reasoner.reason(triangle_facts + equality_facts, max_depth=8, max_facts=100)
+
+        assert result.success is True
+
+        derived_facts = []
+        if result.proof_tree:
+            for node in result.proof_tree.get_all_nodes():
+                derived_facts.extend(node.facts)
+
+        assert any(isinstance(f, CongruentTriangle) for f in derived_facts)
+        assert any(isinstance(f, SimilarTriangle) for f in derived_facts)
 
 
 if __name__ == '__main__':

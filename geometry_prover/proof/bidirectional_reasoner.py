@@ -121,13 +121,10 @@ class BidirectionalReasoner:
         iteration = 0
 
         # Bidirectional search loop
-        while iteration < max_iterations:
+        while iteration < max_iterations and iteration < max_depth:
             iteration += 1
             state.depth = iteration
-
-            # Check depth limit
-            if iteration >= max_depth:
-                break
+            progress_made = False
 
             # Check if all goals are satisfied
             all_satisfied = all(state.has_fact(g) for g in original_goals)
@@ -140,6 +137,7 @@ class BidirectionalReasoner:
                 if new_facts:
                     total_forward_steps += 1
                     total_applications += len(new_facts)
+                    progress_made = True
 
                     # Add facts to proof tree
                     for fact in new_facts:
@@ -163,13 +161,14 @@ class BidirectionalReasoner:
                 progress = self._backward_step(state, original_goals)
                 if progress:
                     total_backward_steps += 1
+                    progress_made = True
 
                     # Check if goals satisfied after backward step
                     if all(state.has_fact(g) for g in original_goals):
                         break
 
             # Check for convergence (no progress in either direction)
-            if total_forward_steps + total_backward_steps == 0:
+            if not progress_made:
                 break
 
         # Calculate elapsed time
@@ -280,11 +279,14 @@ class BidirectionalReasoner:
                 state.increment_theorem_usage(theorem.metadata.name)
                 return True
             else:
+                added_new_goal = False
                 # Add unsatisfied sub-goals
                 for sub_goal in sub_goals:
                     if not state.has_fact(sub_goal) and sub_goal not in state.goals:
                         state.add_goal(sub_goal)
-                return True  # Made progress by adding sub-goals
+                        added_new_goal = True
+                # Only count progress if we actually added new search targets
+                return added_new_goal
 
         return False  # No progress
 

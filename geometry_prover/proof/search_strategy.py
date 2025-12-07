@@ -156,7 +156,7 @@ class BreadthFirstStrategy(SearchStrategy):
         max_depth = kwargs.get('max_depth', 100)
 
         # Stop if depth limit reached
-        if state.depth >= max_depth:
+        if state.depth > max_depth:
             return False
 
         # Stop if no more goals
@@ -222,7 +222,7 @@ class DepthFirstStrategy(SearchStrategy):
         """
         max_depth = kwargs.get('max_depth', 100)
 
-        if state.depth >= max_depth:
+        if state.depth > max_depth:
             return False
 
         if len(state.get_unsatisfied_goals()) == 0:
@@ -322,7 +322,7 @@ class BestFirstStrategy(SearchStrategy):
         """
         max_depth = kwargs.get('max_depth', 100)
 
-        if state.depth >= max_depth:
+        if state.depth > max_depth:
             return False
 
         if len(state.get_unsatisfied_goals()) == 0:

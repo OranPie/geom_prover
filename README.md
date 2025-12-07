@@ -96,6 +96,7 @@ See [PACKAGE_DESIGN_PLAN.md](PACKAGE_DESIGN_PLAN.md) for detailed architecture.
 - [User Guide](docs/user_guide.md) *(coming soon)*
 - [API Reference](docs/api_reference.md) *(coming soon)*
 - [DSL Syntax](docs/dsl_syntax.md) *(coming soon)*
+- [Problem Solving Guide](docs/PROBLEM_SOLVING_GUIDE.md) — step-by-step walkthrough for solving a geometry problem with the DSL and reasoners
 
 ## Testing
 
