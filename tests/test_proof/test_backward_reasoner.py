@@ -29,6 +29,13 @@ class TestBackwardReasoner:
         assert reasoner.strategy is not None
         assert isinstance(reasoner.strategy, BreadthFirstStrategy)
 
+    def test_reuses_engine_applicator(self):
+        """Backward reasoner should share the engine's applicator configuration."""
+        engine = TheoremEngine()
+        reasoner = BackwardReasoner(engine)
+
+        assert reasoner.applicator is engine.applicator
+
     def test_create_reasoner_with_strategy(self):
         """Test creating reasoner with custom strategy."""
         engine = TheoremEngine()
@@ -213,6 +220,29 @@ class TestBackwardReasoner:
         result = reasoner.prove(initial_facts, goals, max_depth=1)
 
         assert result.statistics['iterations'] <= 1
+
+    def test_prove_runs_one_iteration_at_depth_boundary(self):
+        """The first backward step should still execute at depth 1."""
+        theorem = (TheoremBuilder("symmetry")
+                   .add_variable(Variable("?AB", "segment"))
+                   .add_variable(Variable("?CD", "segment"))
+                   .add_condition(PatternTemplate.equal_segment("?AB", "?CD"))
+                   .add_conclusion(PatternTemplate.equal_segment("?CD", "?AB"))
+                   .build())
+
+        engine = TheoremEngine([theorem])
+        reasoner = BackwardReasoner(engine)
+
+        seg_ab = Segment(Point("A"), Point("B"))
+        seg_cd = Segment(Point("C"), Point("D"))
+
+        initial_facts = [EqualSegment(seg_ab, seg_cd)]
+        goals = [EqualSegment(seg_cd, seg_ab)]
+
+        result = reasoner.prove(initial_facts, goals, max_depth=1)
+
+        assert result.statistics['iterations'] == 1
+        assert result.success is True
 
     def test_can_prove_true(self):
         """Test can_prove returns True when goal is provable."""

@@ -99,18 +99,28 @@ class AuxiliaryConstructor:
         try:
             if obj_type == "line":
                 if len(components) >= 2:
+                    if components[0] == components[1]:
+                        return None  # Degenerate line
                     return Line(components[0], components[1])
             elif obj_type == "segment":
                 if len(components) >= 2:
+                    if components[0] == components[1]:
+                        return None  # Degenerate segment
                     return Segment(components[0], components[1])
             elif obj_type == "angle":
                 if len(components) >= 3:
+                    a, b, c = components[:3]
+                    if a == b or b == c or a == c:
+                        return None  # Degenerate angle
                     return Angle(components[0], components[1], components[2])
             elif obj_type == "triangle":
                 # Triangle is not a geometric object, it's a fact
                 # Return tuple of points for now
                 if len(components) >= 3:
-                    return tuple(components[:3])
+                    first_three = components[:3]
+                    if len(set(first_three)) < 3:
+                        return None  # Degenerate triangle
+                    return tuple(first_three)
         except Exception as e:
             # If construction fails, return None
             # This allows matching to continue without the constructed object

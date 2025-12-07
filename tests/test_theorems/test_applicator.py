@@ -7,9 +7,16 @@ Week 4, Day 18 - Test theorem application
 
 import pytest
 from geometry_prover.theorems.applicator import TheoremApplicator, TheoremApplication
+from geometry_prover.theorems.auxiliary_constructor import AuxiliaryConstructor
 from geometry_prover.theorems.theorem import TheoremBuilder
-from geometry_prover.theorems.pattern import Variable, PatternTemplate
-from geometry_prover.facts.fact_types import EqualSegment, EqualAngle, RightAngle
+from geometry_prover.theorems.pattern import Variable, PatternTemplate, Pattern
+from geometry_prover.facts.fact_types import (
+    EqualSegment,
+    EqualAngle,
+    RightAngle,
+    Collinear,
+    Parallel,
+)
 from geometry_prover.utils.geometry_objects import Point, Segment, Angle
 
 
@@ -213,6 +220,69 @@ class TestTheoremApplicator:
         # Only theorem1 should apply
         assert len(applications) == 1
         assert applications[0].theorem.metadata.name == "theorem1"
+
+    def test_auxiliary_constructor_rejects_degenerate_line(self):
+        """Do not construct lines when both endpoints are the same point."""
+
+        theorem = (
+            TheoremBuilder("degenerate_line_guard")
+            .category("auxiliary")
+            .add_variable(Variable("?A", "point"))
+            .add_variable(Variable("?B", "point"))
+            .add_variable(Variable("?C", "point"))
+            .add_variable(Variable("?AB", "line", derived_from=["?A", "?B"]))
+            .add_condition(
+                Pattern("Collinear", {"point1": "?A", "point2": "?B", "point3": "?C"})
+            )
+            .add_conclusion(PatternTemplate.parallel("?AB", "?AB"))
+            .build()
+        )
+
+        facts = [Collinear(Point("C"), Point("C"), Point("D"))]
+
+        applicator = TheoremApplicator()
+        applicator.matcher.auxiliary_constructor = AuxiliaryConstructor()
+
+        match_result = applicator.matcher.match_all_with_facts(theorem.conditions, facts, theorem)
+        assert match_result is not None
+
+        binding, _ = match_result
+        assert binding.get("?AB") is None
+
+        result = applicator.apply(theorem, facts)
+        assert result is None
+
+    def test_auxiliary_constructor_allows_valid_line(self):
+        """Composite construction should work when endpoints differ."""
+
+        theorem = (
+            TheoremBuilder("non_degenerate_line_application")
+            .category("auxiliary")
+            .add_variable(Variable("?A", "point"))
+            .add_variable(Variable("?B", "point"))
+            .add_variable(Variable("?C", "point"))
+            .add_variable(Variable("?AB", "line", derived_from=["?A", "?B"]))
+            .add_condition(
+                Pattern("Collinear", {"point1": "?A", "point2": "?B", "point3": "?C"})
+            )
+            .add_conclusion(PatternTemplate.parallel("?AB", "?AB"))
+            .build()
+        )
+
+        facts = [Collinear(Point("A"), Point("B"), Point("C"))]
+
+        applicator = TheoremApplicator()
+        applicator.matcher.auxiliary_constructor = AuxiliaryConstructor()
+
+        match_result = applicator.matcher.match_all_with_facts(theorem.conditions, facts, theorem)
+        assert match_result is not None
+
+        binding, _ = match_result
+        assert binding.get("?AB") is not None
+
+        result = applicator.apply(theorem, facts)
+        assert result is not None
+        assert any(isinstance(fact, Parallel) for fact in result.derived_facts)
 
     def test_theorem_application_repr(self):
         """Test TheoremApplication repr."""

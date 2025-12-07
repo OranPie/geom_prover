@@ -20,6 +20,7 @@ from geometry_prover.dsl.parser import Parser
 from geometry_prover.semantic.fact_extractor import FactExtractor
 from geometry_prover.theorems.engine import TheoremEngine
 from geometry_prover.proof.bidirectional_reasoner import BidirectionalReasoner
+from geometry_prover.proof.forward_reasoner import ForwardReasoner
 from geometry_prover.facts.fact_types import EqualSegment
 
 
@@ -86,6 +87,7 @@ print("This requires chaining through 5 intermediate segments")
 
 reasoner = BidirectionalReasoner(engine)
 result = reasoner.prove(facts, [goal], max_depth=20, max_iterations=50)
+used_forward_fallback = False
 
 print(f"\nProof Search Results:")
 print(f"  Success: {result.success}")
@@ -96,6 +98,19 @@ print(f"  Total facts: {result.statistics['total_facts']}")
 print(f"  Derived facts: {result.statistics['derived_facts']}")
 print(f"  Theorem applications: {result.statistics['theorem_applications']}")
 print(f"  Time: {result.statistics['time_ms']}ms")
+
+if not result.success:
+    print("\n⚠ Bidirectional reasoning did not reach the goal. Falling back to forward reasoning...")
+    forward_reasoner = ForwardReasoner(engine)
+    forward_result = forward_reasoner.reason(
+        facts,
+        goals=[goal],
+        max_depth=50,
+        max_iterations=200,
+    )
+    # Replace result with forward reasoning output for downstream analysis
+    result = forward_result
+    used_forward_fallback = True
 
 if result.statistics['theorem_usage']:
     print(f"\nTheorem usage:")
@@ -128,13 +143,24 @@ if result.statistics['time_ms'] > 0:
 
 print_header("SUMMARY")
 
-print(f"\n✓ Successfully proved AB = MN through deep chain")
+if result.success:
+    print(f"\n✓ Successfully proved AB = MN through deep chain")
+else:
+    print(f"\n✗ Could not prove AB = MN with configured strategies")
+
 print(f"✓ Required {result.statistics['iterations']} iterations")
 print(f"✓ Applied {result.statistics['theorem_applications']} theorems")
 print(f"✓ Completed in {result.statistics['time_ms']}ms")
 
+if used_forward_fallback:
+    print("  (Result obtained using forward reasoning fallback)")
+
 print(f"\nKey Insights:")
-print(f"  • Bidirectional search handles deep chains efficiently")
+if used_forward_fallback:
+    print(f"  • Forward reasoning can rescue goals that bidirectional search misses")
+    print(f"  • Bidirectional search may need tuning for very deep chains")
+else:
+    print(f"  • Bidirectional search handles deep chains efficiently")
 print(f"  • System scales to {len(facts)}-step proof chains")
 print(f"  • Performance remains fast even with complex proofs")
 print(f"  • Search explores {result.statistics['total_facts']} facts to find proof")

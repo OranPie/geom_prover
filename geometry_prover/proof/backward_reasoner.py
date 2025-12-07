@@ -17,7 +17,6 @@ from collections import deque
 from geometry_prover.facts.fact_types import Fact
 from geometry_prover.theorems.theorem import Theorem
 from geometry_prover.theorems.engine import TheoremEngine
-from geometry_prover.theorems.applicator import TheoremApplicator
 from geometry_prover.theorems.matcher import PatternMatcher, Unifier
 from geometry_prover.proof.proof_state import ProofState
 from geometry_prover.proof.proof_tree import ProofTree, ProofNode, ProofNodeType
@@ -63,7 +62,9 @@ class BackwardReasoner:
         """
         self.theorem_engine = theorem_engine
         self.strategy = strategy or BreadthFirstStrategy()
-        self.applicator = TheoremApplicator()
+        # Reuse the theorem engine's applicator so auxiliary construction
+        # and matcher configuration stay consistent across reasoners.
+        self.applicator = theorem_engine.applicator
         self.matcher = PatternMatcher()
         self.unifier = Unifier()
 
@@ -113,13 +114,9 @@ class BackwardReasoner:
         iteration = 0
         total_applications = 0
 
-        while iteration < max_iterations:
+        while iteration < max_iterations and iteration < max_depth:
             iteration += 1
             state.depth = iteration
-
-            # Check depth limit
-            if iteration >= max_depth:
-                break
 
             # Check if all goals satisfied
             if not self.strategy.should_continue(state, max_depth=max_depth):
